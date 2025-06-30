@@ -9,6 +9,14 @@ Este trabajo propone un enfoque de clasificación binaria basado en la extracci�
 ## Descripción del problema
 El objetivo es predecir el diagnóstico general de un ECG, determinando si pertenece a un patrón normal o presenta fibrilación auricular. Para ello, se extraen métricas relevantes de la señal, como intervalos RR y medidas de variabilidad, y se entrena un modelo neuronal **MLPClassifier** para realizar la clasificación. Se exploran distintas arquitecturas y funciones de activación, buscando optimizar el rendimiento en términos de precisión, recall y F1-score.
 
+## Descripción de los datos
+Los datos utilizados provienen de la base de datos **PhysioNet**, y se consideran únicamente los registros anotados como **Normal (N)** o **AFib (A)**. Se eliminaron los registros con ruido debido a que afectan al entrenamiento, y se descartaron los registros anotados como others, debido a que el objetivo es identificar entre normal y AFib. A partir de los archivos .mat correspondientes a cada ECG, se procesa la señal en una única derivación y se normaliza. Se detectan los picos R, y con base en ellos se calculan los siguientes atributos:
+
+- Media y desviación estándar de intervalos RR.
+- Asimetría (skew) y curtosis.
+
+Estas características se almacenan en un archivo CSV para facilitar futuras ejecuciones.
+
 ## Exploración de los datos
 
 Antes del entrenamiento del modelo, se realizó una exploración inicial de 30 datos extraídos. Se analizaron la distribución de las variables numéricas (como los intervalos RR) y su comportamiento según la clase (Normal o AFib). Esta etapa permitió identificar posibles sesgos, outliers y diferencias entre clases.
@@ -48,14 +56,6 @@ A continuación, se presentan las distribuciones por clase de las principales va
 - La escala de las variables es distinta, lo que justificó el uso de estandarización antes del entrenamiento.
 
 
-
-## Descripción de los datos
-Los datos utilizados provienen de la base de datos **PhysioNet**, y se consideran únicamente los registros anotados como **Normal (N)** o **AFib (A)**. Se eliminaron los registros con ruido debido a que afectan al entrenamiento, y se descartaron los registros anotados como others, debido a que el objetivo es identificar entre normal y AFib. A partir de los archivos .mat correspondientes a cada ECG, se procesa la señal en una única derivación y se normaliza. Se detectan los picos R, y con base en ellos se calculan los siguientes atributos:
-
-- Media y desviación estándar de intervalos RR.
-- Asimetría (skew) y curtosis.
-
-Estas características se almacenan en un archivo CSV para facilitar futuras ejecuciones.
 
 ## Obtención de las métricas de los archivos .mat
 Para extraer las características de los archivos `.mat` y calcular las métricas, se siguió el siguiente proceso:
